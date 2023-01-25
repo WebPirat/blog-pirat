@@ -3,7 +3,7 @@ name: 🚀 Deploy website on push
 jobs:
   web-deploy:
     name: 🎉 Deploy to Live
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/live' }}
     runs-on: ubuntu-latest
     steps:
       - name: 🚚 Get latest code
