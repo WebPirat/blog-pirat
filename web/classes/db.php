@@ -10,7 +10,6 @@ class db
 
     public function __construct() {
         $db = $this->getVar();
-        print_r($db);
         if(!empty($db)) {
             $this->connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
             if ($this->connection->connect_error) {
