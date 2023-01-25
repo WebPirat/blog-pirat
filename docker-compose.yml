@@ -12,9 +12,9 @@ services:
     build: ./Docker/mysql
     environment:
       MYSQL_ROOT_PASSWORD: sbx
-      MYSQL_DATABASE: sbx
-      MYSQL_USER: sbx
-      MYSQL_PASSWORD: sbx
+      MYSQL_DATABASE: blogpirat
+      MYSQL_USER: blogpirat
+      MYSQL_PASSWORD: blogpirat
       MYSQL_HOST: localhost
     command: mysqld --sql_mode="" --character-set-server=utf8 --init-connect='SET NAMES UTF8;' --innodb-flush-log-at-trx-commit=0
     ports:
