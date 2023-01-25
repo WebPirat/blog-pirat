@@ -3,7 +3,6 @@ on:
       branches:
         - main
       types: [closed]
-
 jobs:
   web-deploy:
     name: 🎉 Deploy to Live
@@ -19,5 +18,5 @@ jobs:
           server: ${{ secrets.ftp_server }}
           username: ${{ secrets.ftp_user }}
           password: ${{ secrets.ftp_password }}
-                local-dir: ./web/
+          local-dir: ./web/
 
