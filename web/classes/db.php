@@ -8,14 +8,36 @@ class db
     protected $query_closed = TRUE;
     public $query_count = 0;
 
-    public function __construct($dbhost = 'blog-pirat-mysql-1', $dbuser = 'blogpirat', $dbpass = 'blogpirat', $dbname = 'blogpirat', $charset = 'utf8') {
-        $this->connection = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
-        if ($this->connection->connect_error) {
-            $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
+    public function __construct() {
+        $db = $this->getVar();
+        print_r($db);
+        if(!empty($db)) {
+            $this->connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
+            if ($this->connection->connect_error) {
+                $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
+            }
+            $this->connection->set_charset($db['charset']);
+        }else{
+            $this->error('No DB config!');
         }
-        $this->connection->set_charset($charset);
     }
+    private function getVar(){
+        if (file_exists("./settings.ini")) {
+                $vars = parse_ini_file("./settings.ini");
+         }else{
+            if(($_SERVER['SERVER_NAME'] === 'localhost')) {
+                if (file_exists("./sample.ini")) {
+                    $vars = parse_ini_file("./sample.ini");
+                }
+            }else{
+                return false;
+            }
+        }
 
+        $vars['charset'] = 'utf8';
+        return $vars;
+
+    }
     public function query($query) {
         if (!$this->query_closed) {
             $this->query->close();
