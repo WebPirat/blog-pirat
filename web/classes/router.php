@@ -19,8 +19,11 @@ class router
     }
     private function getFirstRoute($uri){
         $uriarray = array_filter(explode('/', $uri));
-        print_r($uriarray);
-        return $uriarray[1];
+        if(isset($uriarray[1])) {
+            return $uriarray[1];
+        }else{
+            return false;
+        }
     }
     public function getHeader(){
         echo 'Header';

@@ -1,0 +1,7 @@
+CREATE DATABASE IF NOT EXISTS `live`;
+CREATE DATABASE IF NOT EXISTS `test`;
+
+CREATE USER 'test'@'localhost' IDENTIFIED BY 'local';
+GRANT ALL PRIVILEGES ON live.* TO 'test'@'%';
+GRANT ALL PRIVILEGES ON test.* TO 'test'@'%';
+
