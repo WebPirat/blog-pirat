@@ -6,7 +6,6 @@ on:
 jobs:
     web-deploy-dev:
       name: 🎉 Deploy to Dev
-      if: ${{ github.ref == 'refs/heads/dev' }}
       runs-on: ubuntu-latest
       steps:
         - name: 🚚 Get latest code
