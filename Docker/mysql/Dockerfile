@@ -13,3 +13,4 @@ RUN chmod +x getnewDump.sh
 #RUN ./getDump.sh
 #RUN mv dump.sql /docker-entrypoint-initdb.d/dump.sql
 COPY setup.sql /docker-entrypoint-initdb.d/
+COPY dumps/ /docker-entrypoint-initdb.d/
