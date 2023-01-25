@@ -1,7 +1,7 @@
 on:
   pull_request:
     branches:
-      - main
+      - dev
     types: [closed]
 jobs:
     web-deploy-dev:
