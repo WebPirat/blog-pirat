@@ -2,7 +2,7 @@ on: push
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Deploy to Live
     if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
@@ -17,7 +17,7 @@ jobs:
           password: ${{ secrets.ftp_password }}
           local-dir: ./web/
   web-deploy-dev:
-    name: 🎉 Deploy
+    name: 🎉 Deploy to Dev
     if: ${{ github.ref == 'refs/heads/dev' }}
     runs-on: ubuntu-latest
     steps:
