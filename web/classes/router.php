@@ -4,13 +4,17 @@ require_once ('autoloader.php');
 class router
 {
     private $database;
+    private $settings;
     private $firstUri;
+    private $uri;
 
     public function __construct()
     {
         $this->database = new db();
+        $this->settings = new settings();
+
+        $this->uri = $_SERVER['REQUEST_URI'];
         $this->firstUri = $this->getFirstRoute($_SERVER['REQUEST_URI']);
-        echo $this->firstUri;
         $navLinks = $this->getUri();
 
     }
@@ -26,7 +30,12 @@ class router
         }
     }
     public function getHeader(){
-        echo 'Header';
+        $title = $this->settings->getOneSetting('title', 'meta');
+        echo '<!DOCTYPE html>
+                <html>
+                <head>
+                  <title>'.$title.'</title>
+                </head>';
     }
     public function getContent(){
         echo 'Body';
