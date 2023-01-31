@@ -1,35 +1,23 @@
 <?php
+namespace content;
 require_once ('autoloader.php');
 
-class router
+class header
 {
+    private $uri;
     private $database;
     private $settings;
-    private $firstUri;
-    private $uri;
+    private $sites;
+
 
     public function __construct()
     {
-        $this->database = new db();
-        $this->settings = new settings();
-
+        $this->database = new \core\db();
+        $this->settings = new \core\settings();
+        $this->sites = new \models\sites();
         $this->uri = $_SERVER['REQUEST_URI'];
-        $this->firstUri = $this->getFirstRoute($_SERVER['REQUEST_URI']);
-        $navLinks = $this->getUri();
-
     }
-    private function getUri(){
-        return ['yolo', 'about'];
-    }
-    private function getFirstRoute($uri){
-        $uriarray = array_filter(explode('/', $uri));
-        if(isset($uriarray[1])) {
-            return $uriarray[1];
-        }else{
-            return false;
-        }
-    }
-    public function getHeader(){
+    public function get(){
         $title = $this->settings->getOneSetting('title', 'meta');
         echo '<!DOCTYPE html>
                 <html>
@@ -46,13 +34,5 @@ class router
                     <meta name="msapplication-config" content="/assets/icon/browserconfig.xml">
                     <meta name="theme-color" content="#ffffff">
                 </head>';
-    }
-    public function getContent(){
-        echo '<body class="container">';
-        echo 'Yolo';
-        echo '</body>';
-    }
-    public function getFooter(){
-        echo '</html>';
     }
 }
