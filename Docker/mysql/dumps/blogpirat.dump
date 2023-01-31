@@ -16,6 +16,179 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `blog_cat`
+--
+
+DROP TABLE IF EXISTS `blog_cat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `blog_cat` (
+  `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `img` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `deleted` int DEFAULT '1',
+  `created_At` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_At` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_At` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `id` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blog_cat`
+--
+
+LOCK TABLES `blog_cat` WRITE;
+/*!40000 ALTER TABLE `blog_cat` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blog_cat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `blog_entrys`
+--
+
+DROP TABLE IF EXISTS `blog_entrys`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `blog_entrys` (
+  `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `title` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `teaser` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `online` int DEFAULT '0',
+  `site_alias` text,
+  `deleted` int DEFAULT '0',
+  `version` int DEFAULT '1',
+  `author` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `lastAuthor` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `created_At` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_At` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_At` datetime DEFAULT NULL,
+  `content` longtext,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `id` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blog_entrys`
+--
+
+LOCK TABLES `blog_entrys` WRITE;
+/*!40000 ALTER TABLE `blog_entrys` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blog_entrys` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`blogpirat`@`%`*/ /*!50003 TRIGGER `versionChangeBlog` BEFORE UPDATE ON `blog_entrys` FOR EACH ROW BEGIN
+	 INSERT INTO blog_entrys_backup 
+	 (oldID, title, teaser, content, site_alias, deleted, version, author, lastAuthor, created_At, updated_At, deleted_At)
+	 SELECT ID, title, teaser, content, site_alias, deleted, version, author, lastAuthor, created_At, updated_At, deleted_At FROM blog_entrys WHERE ID = old.ID;
+     SET new.version = old.version + 1;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `blog_entrys_backup`
+--
+
+DROP TABLE IF EXISTS `blog_entrys_backup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `blog_entrys_backup` (
+  `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `oldID` bigint unsigned NOT NULL,
+  `title` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `teaser` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `content` longtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `online` int DEFAULT '0',
+  `site_alias` text,
+  `deleted` int DEFAULT '0',
+  `version` int DEFAULT '1',
+  `author` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `lastAuthor` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `created_At` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updated_At` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_At` datetime DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `id` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `blog_entrys_backup`
+--
+
+LOCK TABLES `blog_entrys_backup` WRITE;
+/*!40000 ALTER TABLE `blog_entrys_backup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `blog_entrys_backup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `settings` (
+  `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `content` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `cat` bigint unsigned DEFAULT NULL,
+  UNIQUE KEY `id` (`ID`),
+  KEY `group` (`cat`),
+  CONSTRAINT `settings_ibfk_1` FOREIGN KEY (`cat`) REFERENCES `settings` (`ID`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `settings`
+--
+
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES (1,'title','Blog Pirat',1);
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `settings_cat`
+--
+
+DROP TABLE IF EXISTS `settings_cat`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `settings_cat` (
+  `ID` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` text,
+  UNIQUE KEY `id` (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `settings_cat`
+--
+
+LOCK TABLES `settings_cat` WRITE;
+/*!40000 ALTER TABLE `settings_cat` DISABLE KEYS */;
+INSERT INTO `settings_cat` VALUES (1,'meta');
+/*!40000 ALTER TABLE `settings_cat` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sites`
 --
 
@@ -40,6 +213,15 @@ CREATE TABLE `sites` (
   UNIQUE KEY `id` (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sites`
+--
+
+LOCK TABLES `sites` WRITE;
+/*!40000 ALTER TABLE `sites` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sites` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -110,6 +292,15 @@ CREATE TABLE `sites_backup` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `sites_backup`
+--
+
+LOCK TABLES `sites_backup` WRITE;
+/*!40000 ALTER TABLE `sites_backup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sites_backup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sites_meta`
 --
 
@@ -132,6 +323,15 @@ CREATE TABLE `sites_meta` (
   CONSTRAINT `sites_meta_ibfk_1` FOREIGN KEY (`sitesID`) REFERENCES `sites` (`ID`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sites_meta`
+--
+
+LOCK TABLES `sites_meta` WRITE;
+/*!40000 ALTER TABLE `sites_meta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sites_meta` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -178,6 +378,15 @@ CREATE TABLE `sites_meta_backup` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `sites_meta_backup`
+--
+
+LOCK TABLES `sites_meta_backup` WRITE;
+/*!40000 ALTER TABLE `sites_meta_backup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sites_meta_backup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'blogpirat'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -190,4 +399,4 @@ CREATE TABLE `sites_meta_backup` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-01-26 21:13:25
+-- Dump completed on 2023-01-31 16:39:04
