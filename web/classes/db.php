@@ -120,7 +120,27 @@ class db
         $this->query_closed = TRUE;
         return $result;
     }
-
+    public function fetchString($column) {
+        $params = array();
+        $row = array();
+        $this->query->store_result();
+        $meta = $this->query->result_metadata();
+        while ($field = $meta->fetch_field()) {
+            $params[] = &$row[$field->name];
+        }
+        call_user_func_array(array($this->query, 'bind_result'), $params);
+        $result = array();
+        while ($this->query->fetch()) {
+            foreach ($row as $key => $val) {
+                if($key === $column) {
+                    $result = $val;
+                }
+            }
+        }
+        $this->query->close();
+        $this->query_closed = TRUE;
+        return $result;
+    }
     public function close() {
         return $this->connection->close();
     }
