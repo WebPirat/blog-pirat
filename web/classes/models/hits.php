@@ -11,7 +11,10 @@ class hits
     {
         $this->database = new \core\db();
         $this->settings = new \core\settings();
-        $this->blacklist = ['/favicon.ico','/hi'];
+        $this->blacklist = [
+            '/favicon.ico',
+            '/hi',
+        ];
 
         if($this->checkHitsBlacklist() > 0) {
             $this->purgeHitsDB();
