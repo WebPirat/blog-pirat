@@ -1,4 +1,5 @@
 <?php
+namespace core;
 #https://codeshack.io/super-fast-php-mysql-database-class/
 class db
 {
@@ -11,7 +12,7 @@ class db
     public function __construct() {
         $db = $this->getVar();
         if(!empty($db)) {
-            $this->connection = new mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
+            $this->connection = new \mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
             if ($this->connection->connect_error) {
                 $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
             }
@@ -140,6 +141,12 @@ class db
         $this->query->close();
         $this->query_closed = TRUE;
         return $result;
+    }
+    public function rawQuery($query){
+        if (!$this->query_closed) {
+            $this->query->close();
+        }
+        return $this->connection->query($query);
     }
     public function close() {
         return $this->connection->close();

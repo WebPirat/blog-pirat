@@ -1,4 +1,5 @@
 <?php
+namespace core;
 class settings
 {
      private $database;
@@ -22,13 +23,14 @@ class settings
     /**
      * @param mixed $settings
      */
-    public function getOneSetting($name, $group = null): string
+    public function getOneSetting($name, $group = NULL): string
     {
         if($group !== null) {
             $catID = $this->database->query('SELECT * FROM settings_cat WHERE name = ?', $group)->fetchString('ID');
-            $group = $catID;
+            $sql = $this->database->query('SELECT * FROM settings WHERE name = ? AND cat = ?', $name ,$catID)->fetchString('content');
+        }else{
+            $sql = $this->database->query('SELECT * FROM settings WHERE name = ?', $name)->fetchString('content');
         }
-        $sql = $this->database->query('SELECT * FROM settings WHERE name = ? AND cat = ?', $name ,$group)->fetchString('content');
         if(empty($sql)){
             $response = 'Empty';
         }else{
