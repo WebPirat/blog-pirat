@@ -1,3 +1,6 @@
+@import '_colors.css';
+@import 'nav.css';
+
 .container {
     width: 1200px;
     margin: auto;
