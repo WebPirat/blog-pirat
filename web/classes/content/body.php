@@ -7,16 +7,16 @@ class body
     private $uri;
     private $database;
     private $settings;
-    private $homeID;
-    private $navID;
     private $sites;
     public $widgets;
+    public $nav;
 
     public function __construct()
     {
         $this->database = new \core\db();
         $this->settings = new \core\settings();
         $this->sites = new \models\sites();
+        $this->nav = new nav();
         $this->uri = $_SERVER['REQUEST_URI'];
     }
 
@@ -33,7 +33,8 @@ class body
 
     public function get(){
         echo '<body class="container">';
-        echo 'Yolo';
+        $this->nav->getMainNav();
+        //echo 'Yolo';
         echo '</body>';
     }
 }

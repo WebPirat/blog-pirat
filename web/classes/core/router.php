@@ -24,7 +24,6 @@ class router
         $this->body = new \content\body();
         $this->footer = new \content\footer();
         $this->hits = new hits();
-
         $this->uri = $_SERVER['REQUEST_URI'];
         $this->firstUri = $this->getFirstRoute($_SERVER['REQUEST_URI']);
         $navLinks = $this->getUri();
@@ -58,7 +57,7 @@ class router
     private function getUri(){
         return ['yolo', 'about'];
     }
-    private function getFirstRoute($uri){
+    public function getFirstRoute($uri){
         $uriarray = array_filter(explode('/', $uri));
         if(isset($uriarray[1])) {
             return $uriarray[1];
