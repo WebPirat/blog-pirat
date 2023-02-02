@@ -16,7 +16,7 @@ class nav
         $this->database = new \core\db();
         $this->settings = new \core\settings();
         $this->sites = new \models\sites();
-        $this->router = new \core\router();
+        //$this->router = new \core\router();
         $this->uri = $_SERVER['REQUEST_URI'];
     }
 
