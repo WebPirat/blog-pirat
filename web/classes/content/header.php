@@ -33,6 +33,8 @@ class header
                     <meta name="msapplication-TileColor" content="#da532c">
                     <meta name="msapplication-config" content="/assets/icon/browserconfig.xml">
                     <meta name="theme-color" content="#ffffff">
-                </head>';
+                </head>
+                <body>
+                ';
     }
 }

@@ -1,7 +1,6 @@
 @import '_colors.css';
+@import 'styles.css';
+@import 'grid.css';
 @import 'nav.css';
-
-.container {
-    width: 1200px;
-    margin: auto;
-}
+@import 'error.css';
+@import 'footer.css';

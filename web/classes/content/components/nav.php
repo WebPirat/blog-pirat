@@ -1,5 +1,5 @@
 <?php
-namespace content;
+namespace content\components;
 
 require_once ('autoloader.php');
 
@@ -9,24 +9,21 @@ class nav
     private $database;
     private $settings;
     private $sites;
-    private $router;
 
     public function __construct()
     {
         $this->database = new \core\db();
         $this->settings = new \core\settings();
         $this->sites = new \models\sites();
-        //$this->router = new \core\router();
-        $this->uri = $_SERVER['REQUEST_URI'];
+        $this->uri = new \core\uri();
     }
 
     public function getMainNav(){
         $nav = $this->sites->getSitesforNav();
         $title = $this->settings->getOneSetting('title', 'meta');
         $home = $this->settings->getOneSetting('home');
+        $firstUri = $this->uri->firstUri;
 
-
-        echo $home;
         echo '<nav class="main-nav">';
             echo '';
             echo '<div class="main-img"><img src="/assets/img/logo.png" class="main-logo"></div>';
@@ -34,10 +31,13 @@ class nav
             echo '<ul class="main-ul">';
                 foreach ($nav as $link){
                  $aktiv = '';
-                 if($link['ID'] == $home){
+                 if($link['ID'] == $home && empty($firstUri)){
                      $aktiv = ' active';
                  }
-                 echo '<li class="main-li'.$aktiv.'"><a href="'.$link['site_alias'].'">'.$link['ID'].'</a></li>';
+                 if(strtolower($link['site_alias']) == strtolower($firstUri)){
+                     $aktiv = ' active';
+                 }
+                 echo '<li class="main-li'.$aktiv.'"><a href="'.$link['site_alias'].'">'.$link['name'].'</a></li>';
                 }
             echo '</ul>';
         echo '</nav>';

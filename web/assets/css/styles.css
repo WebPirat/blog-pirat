@@ -1,0 +1,10 @@
+.container {
+    margin: 30px 115px;
+}
+
+.img-responsive {
+    width: 100%;
+}
+.app {
+    min-height: calc(100vh - 100px);
+}

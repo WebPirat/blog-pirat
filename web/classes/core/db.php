@@ -39,6 +39,7 @@ class db
 
     }
     public function query($query) {
+        echo '';
         if (!$this->query_closed) {
             $this->query->close();
         }
