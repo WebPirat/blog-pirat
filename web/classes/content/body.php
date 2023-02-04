@@ -26,9 +26,9 @@ class body
     {
         $firstUri = $this->uri->firstUri;
         $homeID = $this->settings->getOneSetting('home');
+        $content = (object)[];
 
         if(empty($firstUri) || $firstUri == '/'){
-            echo $homeID;
             $sitesarray = $this->sites->getSiteByID($homeID);
         }else{
             $sitesarray = $this->sites->getSiteByAlias($firstUri);
@@ -36,6 +36,9 @@ class body
         if(empty($sitesarray)){
             $this->get404();
         }else{
+            if($sitesarray['site_alias'] === '/'){
+                $sitesarray['site_alias'] = 'home';
+            }
             $dynaClass = '\content\sites\\' . $sitesarray['site_alias'];
             if (class_exists($dynaClass)) {
                 $content = new $dynaClass();
