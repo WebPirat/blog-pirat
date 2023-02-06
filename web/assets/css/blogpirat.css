@@ -1,7 +1,11 @@
 @import '_colors.css';
+@import 'fonts.css';
 @import 'styles.css';
 @import 'grid.css';
 @import 'home.css';
 @import 'nav.css';
 @import 'error.css';
 @import 'footer.css';
+
+/* ----- Componenten ------ */
+@import "components/blogTeaser.css";

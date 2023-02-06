@@ -2,34 +2,10 @@
     display: grid;
     grid-template-columns: 600px auto;
 }
-.home-blog-container{
-    border: black solid 1px;
-    height: 170px;
-}
 .papagei {
     width: 150px;
 }
 .papagei-cage{
     grid-column-start: 2;
     place-self: start;
-}
-
-.blog-footer{
-    position: absolute;
-    bottom: 10px;
-    width: calc(100% - 20px);
-    border-top: 1px #80808066 solid;
-    padding-top: 5px;
-}
-.blog-wrapper{
-    padding: 10px;
-    background-color: #FFFFFF;
-}
-.blog-wrapper h3 {
-    margin: 0;
-    border-bottom: 1px #80808066 solid;
-}
-.blog-wrapper p {
-    margin:5px 0;
-    height: 90px;
 }

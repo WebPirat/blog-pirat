@@ -1,74 +1,59 @@
 <?php
 namespace core;
+use content\body;
+use content\footer;
+use content\header;
+use helper\routeParser;
 use models\hits;
-
-require_once ('autoloader.php');
+use models\sites;
 
 class router
 {
-    private $database;
-    private $settings;
-    private $hits;
-    private $body;
-    private $header;
-    private $footer;
-    private $firstUri;
-    private $uri;
-    public $navID;
+    private object $hits;
+    private object $body;
+    private object $header;
+    private object $footer;
+    private object $uriclass;
+    private object $routerParser;
+    private string $uri;
+    private settings $settings;
+    private sites $sites;
+    public array $siteinfo;
 
     public function __construct()
     {
-        $this->database = new db();
-        $this->settings = new settings();
-        $this->header = new \content\header();
-        $this->body = new \content\body();
-        $this->footer = new \content\footer();
-        $this->hits = new hits();
         $this->uri = $_SERVER['REQUEST_URI'];
-        $this->firstUri = $this->getFirstRoute($_SERVER['REQUEST_URI']);
-        $navLinks = $this->getUri();
-
+        $this->uriclass = new uri();
+        $this->settings = new settings();
+        $this->sites = new sites();
+        $this->siteinfo = $this->getSiteInfo();
+        $this->routerParser = new routeParser($this->siteinfo);
+        $this->hits = new hits($this->siteinfo);
+        $this->header = new header($this->siteinfo);
+        $this->body = new body($this->siteinfo);
+        $this->footer = new footer($this->siteinfo);
     }
-    /**
-     * @return int
-     */
-    private function getHomeID(): int
+
+    private function getHeaderMeta(): array
     {
-        $this->homeID = $this->settings->getOneSetting('home');
-        if($this->homeID === 'Empty'){
-            echo 'Keine Startseiten in denn Settings gesetzt!';
-            exit;
-        }
-        return $this->homeID;
+        $meta['title'] = $this->settings->getOneSetting('title', 'meta');
+        return $meta;
     }
-    /**
-     * @return mixed
-     */
-    public function getNavID()
+    private function getSiteInfo(): array
     {
-        if(empty($this->uri)){
-            $navID = $this->getHomeID();
-        }else{
-            echo 'shiat';
-        }
+        $siteinfo = [];
 
-        return $this->navID;
-    }
-    private function getUri(){
-        return ['yolo', 'about'];
-    }
-    public function getFirstRoute($uri){
-        $uriarray = array_filter(explode('/', $uri));
-        if(isset($uriarray[1])) {
-            return $uriarray[1];
-        }else{
-            return false;
-        }
-    }
+        $siteinfo['homeID'] = $this->settings->getOneSetting('home');
+        $siteinfo['title'] = $this->settings->getOneSetting('title', 'meta');
+        $siteinfo['uri'] = $this->uriclass->getUri();
+        $siteinfo['uriarray'] = $this->uriclass->getUriArray($this->uri);
 
-    public function route(){
-        $this->hits->addHits();
-        $this->header->get();
+        return $siteinfo;
+    }
+    public function route(): void
+    {
+        $this->hits->addHits($this->uri);
+        $this->header->get($this->getHeaderMeta());
         $this->body->get();
         $this->footer->get();
     }

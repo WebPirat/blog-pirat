@@ -1,0 +1,68 @@
+.home-blog-container{
+    height: 170px;
+}
+.blog-footer{
+    position: absolute;
+    bottom: 2px;
+    width: calc(100% - 50px);
+    color: black;
+    font-family: Chalk, serif;
+    font-size: 14px;
+    text-shadow: 0.05em 0 white, 0 0.05em white, -0.05em 0 white, 0 -0.05em white, -0.05em -0.05em white, -0.05em 0.05em white, 0.05em -0.05em white, 0.05em 0.05em white;
+}
+.blog-date {
+    font-size: 10px;
+    font-family: ChalkNumbers;
+    padding-bottom: 3px;
+    position: absolute;
+    right: 0;
+    top: 60px;
+    width: 25px;
+}
+.blog-cat {
+    display: flex;
+    font-size: 15px;
+    color: var(--red);
+    font-family: ChalkNumbers;
+    padding-bottom: 3px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 25px;
+    height: 170px;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: -2px;
+    justify-content: center;
+}
+.blog-wrapper{
+    padding: 0 25px;
+}
+.blog-inner-wrapper{
+    padding-left:10px;
+    padding-top: 2px;
+}
+.blog-wrapper h3 {
+    margin: 0;
+    margin-top: 4px;
+    color: black;
+    font-family: Chalk, serif;
+    text-shadow: 0.05em 0 white, 0 0.05em white, -0.05em 0 white, 0 -0.05em white, -0.05em -0.05em white, -0.05em 0.05em white, 0.05em -0.05em white, 0.05em 0.05em white;
+}
+.blog-p1{
+    margin-top: 7px!important;
+}
+.blog-p2{
+    margin-top: 10px!important;
+}
+.blog-wrapper p {
+    margin:5px 0;
+    color: black;
+    font-family: Chalk, serif;
+    text-shadow: 0.05em 0 white, 0 0.05em white, -0.05em 0 white, 0 -0.05em white, -0.05em -0.05em white, -0.05em 0.05em white, 0.05em -0.05em white, 0.05em 0.05em white;
+}
+.blog-papagei-rotate {
+    height: 200px;
+    grid-column-start: 2;
+    transform: rotate(10deg);
+}

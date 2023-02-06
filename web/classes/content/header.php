@@ -1,28 +1,24 @@
 <?php
 namespace content;
+use core\settings;
+
 require_once ('autoloader.php');
 
 class header
 {
-    private $uri;
-    private $database;
-    private $settings;
-    private $sites;
+    public array $siteinfo;
 
 
-    public function __construct()
+    public function __construct($siteinfo)
     {
-        $this->database = new \core\db();
-        $this->settings = new \core\settings();
-        $this->sites = new \models\sites();
-        $this->uri = $_SERVER['REQUEST_URI'];
+        $this->siteinfo = $siteinfo;
     }
-    public function get(){
-        $title = $this->settings->getOneSetting('title', 'meta');
+    public function get(): void
+    {
         echo '<!DOCTYPE html>
-                <html>
+                <html lang="de">
                 <head>                
-                  <title>'.$title.'</title>
+                  <title>'.$this->siteinfo['title'].'</title>
                     <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-touch-icon.png">
                     <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon/favicon-32x32.png">
                     <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon/favicon-16x16.png">
@@ -35,6 +31,7 @@ class header
                     <meta name="theme-color" content="#ffffff">
                 </head>
                 <body>
+                <div class="app">
                 ';
     }
 }

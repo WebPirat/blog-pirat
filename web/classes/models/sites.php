@@ -6,13 +6,15 @@ class sites
 {
     private $database;
     private $settings;
-    private $site;
-    private $siteID;
+    private $headermenuID;
+    private $footermenuID;
 
     public function __construct()
     {
         $this->database = new \core\db();
         $this->settings = new \core\settings();
+        $this->headermenuID = $this->settings->getOneSetting('headerID', 'menu');
+        $this->footermenuID = $this->settings->getOneSetting('footerID', 'menu');
     }
 
     /**
@@ -37,11 +39,17 @@ class sites
      * Gets name and sitealias not deleted and online
      * @return array
      */
-    public function getSitesforNav(){
-        return $this->database->query('SELECT ID, name, site_alias FROM sites WHERE deleted = 0 AND online = 1 AND menuID = 1 ORDER BY sort_order')->fetchAll();
+    public function getSitesforNav($footerID = NULL){
+        if(empty($footerID)){
+            $footerID = $this->settings->getOneSetting('headerID', 'menu');
+        }
+        return $this->database->query('SELECT ID, name, site_alias FROM sites WHERE deleted = 0 AND online = 1 AND menuID = ? ORDER BY sort_order', $footerID)->fetchAll();
     }
-    public function getSitesforFooter(){
-        return $this->database->query('SELECT ID, name, site_alias FROM sites WHERE deleted = 0 AND online = 1 AND menuID = 2 ORDER BY sort_order')->fetchAll();
+    public function getSitesforFooter($headerID = NULL){
+        if(empty($headerID)){
+            $headerID = $this->settings->getOneSetting('footerID', 'menu');
+        }
+        return $this->database->query('SELECT ID, name, site_alias FROM sites WHERE deleted = 0 AND online = 1 AND menuID = ? ORDER BY sort_order', $headerID)->fetchAll();
     }
     public function getSitesAlias(){
         return $this->database->query('SELECT ID, site_alias FROM sites WHERE deleted = 0 AND online = 1 ORDER BY sort_order')->fetchAll();

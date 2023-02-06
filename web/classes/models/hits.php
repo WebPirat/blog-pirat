@@ -7,7 +7,7 @@ class hits
     private $settings;
     private $blacklist = [];
 
-    public function __construct()
+    public function __construct($siteinfo)
     {
         $this->database = new \core\db();
         $this->settings = new \core\settings();
@@ -21,9 +21,8 @@ class hits
         }
     }
 
-    public function addHits()
+    public function addHits($uri)
     {
-        $uri = $_SERVER['REQUEST_URI'];
         if($this->checkBlacklist($uri)) {
             if (empty($uri)) {
                 $uri = '/';

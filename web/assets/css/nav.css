@@ -42,9 +42,9 @@
     text-decoration: none;
 }
 .main-li.active a{
-    border-bottom: white 3px solid;
+    color: var(--red);
 }
 
 .main-li a:hover {
-    background-color: var(--main-bg-hover);
+    color: var(--red);
 }

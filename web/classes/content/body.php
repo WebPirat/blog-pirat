@@ -13,21 +13,26 @@ class body
     private object $settings;
     private object $sites;
     public object $nav;
+    public array $siteinfo;
 
-    public function __construct()
+    public function __construct($siteinfo)
     {
         $this->settings = new settings();
         $this->sites = new sites();
         $this->nav = new nav();
         $this->uri = new uri();
+        $this->siteinfo = $siteinfo;
     }
 
     public function getContent() : void
     {
-        $firstUri = $this->uri->firstUri;
-        $homeID = $this->settings->getOneSetting('home');
+        $firstUri = null;
+        if(!empty($this->siteinfo['uriarray'])) {
+            $firstUri = $this->siteinfo['uriarray'][1];
+        }
+        $homeID = $this->siteinfo['homeID'];
         $content = (object)[];
-
+        echo $firstUri;
         if(empty($firstUri) || $firstUri == '/'){
             $sitesarray = $this->sites->getSiteByID($homeID);
         }else{
@@ -62,9 +67,7 @@ class body
 
     public function get(): void
     {
-        echo '<div class="app">';
-                $this->nav->getMainNav();
-                $this->getContent();
-        echo '</div>';
+        $this->nav->getMainNav();
+        $this->getContent();
     }
 }

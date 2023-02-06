@@ -47,4 +47,18 @@ class textParser
     {
         return strtr($string, $this->strings);
     }
+    public function explodeStringIntoMultiple($string, $chars = 33)
+    {
+        $strlength = strlen($string);
+        $rounds = ceil($strlength / $chars);
+        for($i=0; $i < $rounds; $i++) {
+            if($i == 0){
+                $offset = 0;
+            }else{
+                $offset = $i * $chars;
+            }
+            $response[$i] = substr($string, $offset, $chars);
+        }
+        return $response;
+    }
 }

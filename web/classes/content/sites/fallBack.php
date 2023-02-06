@@ -7,6 +7,7 @@ class fallBack
 {
     public object $content;
     public int $siteID;
+    private object $routeParser;
 
     public function __construct($sitesarray)
     {

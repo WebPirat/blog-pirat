@@ -3,8 +3,7 @@
     text-align: center;
     border: black 1px solid;
     padding: 10px 0;
-    margin:auto;
-    margin-top: 50px;
+    margin: 50px auto auto;
     font-size: 24px;
     font-weight: bold;
 }

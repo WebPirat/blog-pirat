@@ -47,7 +47,8 @@ class footer
     }
 
     public function get(){
-        echo '<footer>
+        echo '</div>
+                <footer>
                 <div class="footer">
                     <div class="footer-left">'.$this->textparser->getText('copyright').'</div>
                     <nav class="footer-nav">
