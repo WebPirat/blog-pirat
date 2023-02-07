@@ -5,6 +5,7 @@ use content\components\nav;
 use content\sites\fallBack;
 use core\settings;
 use core\uri;
+use helper\routeParser;
 use models\sites;
 
 class body
@@ -12,6 +13,7 @@ class body
     private object $uri;
     private object $settings;
     private object $sites;
+    private object $routerParser;
     public object $nav;
     public array $siteinfo;
 
@@ -22,6 +24,7 @@ class body
         $this->nav = new nav();
         $this->uri = new uri();
         $this->siteinfo = $siteinfo;
+        $this->routerParser = new routeParser($this->siteinfo);
     }
 
     public function getContent() : void
@@ -51,9 +54,13 @@ class body
                 $content = new fallBack($sitesarray);
             }
         }
-        echo '<div class="container">';
-                $content->get();
-        echo '</div>';
+        $checkuri = $this->routerParser->compareRoutes($content->routes());
+
+        if($checkuri !== NULL) {
+            echo '<div class="container">';
+                    $content->get();
+            echo '</div>';
+        }
     }
 
     /**

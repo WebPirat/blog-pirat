@@ -45,6 +45,9 @@ class home
         return $response;
     }
 
+    public function routes(){
+        return [];
+    }
 
     public function get(){
         echo '<div class="grid-home-container">

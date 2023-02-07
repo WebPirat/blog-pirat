@@ -1,41 +1,33 @@
 <?php
 namespace core;
+use helper\parseArray;
+
 class settings
 {
-     private $database;
-     public $settings;
+     private object $settings;
+     private object $parseArray;
+     public $allSettings;
+     public $allSettingsCat;
 
      public function __construct()
      {
-         $this->database = new db();
-         $this->settings = $this->database->query('SELECT * FROM settings')->fetchAll();
-
+         $this->settings = new \modals\settings();
+         $this->parseArray = new parseArray();
+         $this->allSettings = $this->settings->getAllSettings();
+         $this->allSettingsCat = $this->settings->getAllSettingsCat();
+         echo $this->getOneSetting('footerID');
      }
-
-    /**
-     * @return mixed
-     */
-    public function getSettings(): array
-    {
-        return $this->settings;
-    }
 
     /**
      * @param mixed $settings
      */
     public function getOneSetting($name, $group = NULL): string
     {
-        if($group !== null) {
-            $catID = $this->database->query('SELECT * FROM settings_cat WHERE name = ?', $group)->fetchString('ID');
-            $sql = $this->database->query('SELECT * FROM settings WHERE name = ? AND cat = ?', $name ,$catID)->fetchString('content');
-        }else{
-            $sql = $this->database->query('SELECT * FROM settings WHERE name = ?', $name)->fetchString('content');
+        $needle['name'] = $name;
+        if(!empty($group)){
+            $groupName = $this->parseArray->findSingleInArray($this->allSettingsCat, ['name' => $group], 'ID');
+            $needle['cat'] = $groupName;
         }
-        if(empty($sql)){
-            $response = 'Empty';
-        }else{
-            $response = $sql;
-        }
-        return $response;
+        return $this->parseArray->findSingleInArray($this->allSettings, $needle, 'content');
     }
 }

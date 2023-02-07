@@ -15,13 +15,15 @@ class fallBack
         $this->siteID = $sitesarray['ID'];
     }
 
-
+    public function routes(){
+        return ['site_alias'=> 'blog_entrys'];
+    }
 
     public function get(){
         $articels = $this->content->getContent($this->siteID);
         echo '<div class="grid-2">';
         foreach ($articels as $articel){
-            echo '<div>'.$articel['content'].'</div>';
+            echo '<div>'.$articel['content'].'3</div>';
         };
         echo '</div>';
     }
