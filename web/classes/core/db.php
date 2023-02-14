@@ -5,18 +5,22 @@ class db
 {
     protected $connection;
     protected $query;
+    protected $database;
+    protected $blacklist;
     protected $show_errors = TRUE;
     protected $query_closed = TRUE;
     public $query_count = 0;
 
     public function __construct() {
         $db = $this->getVar();
+        $this->blacklist = ['ID','created_At','updated_At', 'deleted_At'];
         if(!empty($db)) {
             $this->connection = new \mysqli($db['host'], $db['user'], $db['pass'], $db['name']);
             if ($this->connection->connect_error) {
                 $this->error('Failed to connect to MySQL - ' . $this->connection->connect_error);
             }
             $this->connection->set_charset($db['charset']);
+            $this->database = $db['name'];
         }else{
             $this->error('No DB config!');
         }
@@ -149,6 +153,19 @@ class db
         }
         return $this->connection->query($query);
     }
+
+    public function getSchema($table){
+        $schema = $this->query("SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='".$this->database."' AND `TABLE_NAME`='".$table."'")->fetchAll();
+        foreach ($schema as $column){
+            if(!in_array($column['COLUMN_NAME'], $this->blacklist)) {
+                $response[] = $column['COLUMN_NAME'];
+            }
+        }
+        return $response;
+    }
+
+
+
     public function close() {
         return $this->connection->close();
     }

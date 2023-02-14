@@ -15,9 +15,20 @@ class settings
          $this->parseArray = new parseArray();
          $this->allSettings = $this->settings->getAllSettings();
          $this->allSettingsCat = $this->settings->getAllSettingsCat();
-         echo $this->getOneSetting('footerID');
      }
 
+     public  function getAllSettingsFromCat($group){
+         $id = $this->getGroupId($group);
+         $settings = $this->parseArray->findInArray($this->allSettings, ['cat' => $id]);
+         foreach ($settings as $setting){
+             $response[$setting['name']] = $setting['content'];
+         }
+         return $response;
+     }
+
+     public function getGroupId($group){
+         return $this->parseArray->findSingleInArray($this->allSettingsCat, ['name' => $group], 'ID');
+     }
     /**
      * @param mixed $settings
      */
@@ -25,7 +36,7 @@ class settings
     {
         $needle['name'] = $name;
         if(!empty($group)){
-            $groupName = $this->parseArray->findSingleInArray($this->allSettingsCat, ['name' => $group], 'ID');
+            $groupName = $this->getGroupId($group);
             $needle['cat'] = $groupName;
         }
         return $this->parseArray->findSingleInArray($this->allSettings, $needle, 'content');
